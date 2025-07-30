@@ -4,8 +4,13 @@ import { IntegratedGameProvider } from './context/IntegratedGameContext';
 import { StatsHeader } from './components/StatsHeader';
 import IsometricMotherboardCity from './components/IsometricMotherboardCity';
 import { BuildingSelector } from './components/BuildingSelector';
-
 import { Tutorial } from './components/Tutorial';
+import { MilestonesPanel } from './components/MilestonesPanel';
+import { PrestigePanel } from './components/PrestigePanel';
+import { MaintenancePanel } from './components/MaintenancePanel';
+import { CrisisPanel } from './components/CrisisPanel';
+import { QuestPanel } from './components/QuestPanel';
+import { MissionControlPanel } from './components/MissionControlPanel';
 
 function ShowTutorialButton() {
   const [show, setShow] = React.useState(false);
@@ -20,13 +25,6 @@ function ShowTutorialButton() {
     </button>
   );
 }
-
-import { MilestonesPanel } from './components/MilestonesPanel';
-import { PrestigePanel } from './components/PrestigePanel';
-import { MaintenancePanel } from './components/MaintenancePanel';
-import { CrisisPanel } from './components/CrisisPanel';
-import { QuestPanel } from './components/QuestPanel';
-import { MissionControlPanel } from './components/MissionControlPanel';
 
 function App() {
   // Reset Progress handler
