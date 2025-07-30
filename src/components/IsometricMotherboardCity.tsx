@@ -44,9 +44,9 @@ const IsometricMotherboardCity: React.FC<IsometricCityProps> = ({ gridSize = DEF
 
   const handleCellClick = useCallback((gridX: number, gridY: number) => {
     if (!selectedBuilding) return;
-    const building = gameState.buildings.find((b: Building) => b.id === selectedBuilding);
+    const building = gameState?.buildings?.find((b: Building) => b.id === selectedBuilding);
     if (!building || gameState.digicoins < building.baseCost) return;
-    const validation = evaluatePlacement(selectedBuilding, gridX, gridY, placements, gameState.buildings);
+    const validation = evaluatePlacement(selectedBuilding, gridX, gridY, placements, gameState?.buildings || []);
     if (validation.canPlace) {
       if (addPlacement(selectedBuilding, gridX, gridY)) {
         dispatch({ type: 'PLACE_BUILDING', payload: { id: selectedBuilding, x: gridX, y: gridY, cost: building.baseCost } });
@@ -64,10 +64,10 @@ const IsometricMotherboardCity: React.FC<IsometricCityProps> = ({ gridSize = DEF
     const gridPos = screenToGrid(screenX, screenY);
     setHoveredCell(gridPos);
     if (selectedBuilding) {
-      const validation = evaluatePlacement(selectedBuilding, gridPos.x, gridPos.y, placements, gameState.buildings);
+      const validation = evaluatePlacement(selectedBuilding, gridPos.x, gridPos.y, placements, gameState?.buildings || []);
       setPlacementPreview(validation);
     }
-  }, [selectedBuilding, screenToGrid, placements, gameState.buildings]);
+  }, [selectedBuilding, screenToGrid, placements, gameState?.buildings || []]);
 
   // You can expand this to include more component visuals
   const getComponent3DVisual = (buildingId: string, isPlaced: boolean = true) => {
@@ -103,7 +103,7 @@ const IsometricMotherboardCity: React.FC<IsometricCityProps> = ({ gridSize = DEF
       <div className="p-4 border-b border-gray-700 bg-gray-800">
         <h3 className="text-lg font-bold text-blue-400 mb-3">🔧 3D Component Placement</h3>
         <div className="flex flex-wrap gap-2">
-          {gameState.buildings.filter((b: Building) => b.unlocked).map((building: Building) => (
+          {(gameState?.buildings || []).filter((b: Building) => b.unlocked).map((building: Building) => (
             <button
               key={building.id}
               onClick={() => setSelectedBuilding(building.id)}
@@ -123,7 +123,7 @@ const IsometricMotherboardCity: React.FC<IsometricCityProps> = ({ gridSize = DEF
         </div>
         {selectedBuilding && (
           <div className="mt-2 text-sm text-yellow-400">
-            Click on the 3D motherboard to place your {gameState.buildings.find((b: Building) => b.id === selectedBuilding)?.name}
+            Click on the 3D motherboard to place your {gameState?.buildings?.find((b: Building) => b.id === selectedBuilding)?.name}
           </div>
         )}
       </div>
@@ -198,7 +198,7 @@ const IsometricMotherboardCity: React.FC<IsometricCityProps> = ({ gridSize = DEF
 
           {/* Placed Components */}
           {placements.map((p: ComponentPlacement, idx: number) => {
-            const building = gameState.buildings.find((b: Building) => b.id === p.buildingId);
+            const building = gameState?.buildings?.find((b: Building) => b.id === p.buildingId);
             if (!building) return null;
             const cellSize = 40;
             return (
@@ -236,7 +236,7 @@ const IsometricMotherboardCity: React.FC<IsometricCityProps> = ({ gridSize = DEF
               }}
             >
               <div className={`text-2xl ${placementPreview.canPlace ? 'filter-none' : 'filter grayscale opacity-50'}`}>
-                {gameState.buildings.find((b: Building) => b.id === selectedBuilding)?.icon}
+                {gameState?.buildings?.find((b: Building) => b.id === selectedBuilding)?.icon}
               </div>
               {/* Preview border */}
               <div className={`absolute inset-0 border-2 rounded-md ${
